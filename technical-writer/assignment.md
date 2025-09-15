@@ -1,65 +1,19 @@
-# Debug Operations for Pods in Kubernetes  
-The kubectl command line interface, provided by Kubernetes, contains several commands that you can use to figure out what is happening in your cluster. The commands described in this topic can help you assess why your pod isn't performing as expected.
+# Debug Operations in Kubernetes
 
-Before you begin working with kubectl, perform the following tasks:  
-- Make sure you have installed kubectl.
-- Make sure you have access to the cluster you want to debug.
-- Connect kubectl to your cluster. 
-
-## View the Pods in your Cluster  
-First find the pod you want to debug. Use a `kubectl get` command to see a list of the pods in your cluster.  
+Kubernetes contains several commands, sometimes we can use these commands to do things. A good command to know is kubectl get pods which is used to get a list of all pods that are available and what their status is. Just rememember that when you use this command tat you may have to specify the `namespace`.
 
 ```shell
-kubectl get pods 
-``` 
+kubectl get pods --namespace 
+```
 
-You can focus this list to a specific namespace using the `--namespace` flag, for example:  
+Speaking of commands, kubectl is the CLI that is used to interact with k8s. The kubectl cli commmunicates with the kubernettes API server.  Another command that is helpful is the kubectl logs command. In Azure, kubernetess is available, just like other cloud providers. This command is used to retrive the logs of a specific pod - do use this when you have to review logs or need to debug a container. Another we will dicuss is the `kubectl exec` command. A command that we can use to debug a container from the inside or to explore the the enviroment of the container itself.  I recommend when debugging you start with kubectl get pods, then `kubectl logs` and lastly we can use `kubectl exec` to explore the inside of the container and review other log files or configurations. 
 
-```shell
-kubectl get pods --namespace <my-namespace>
-``` 
+**Note:** The command `kubectl debug` is another option to considering when debugging a container. This command can be used to create a clone of a pod that does not terminate if an error is experienced inside the container. 
 
-Find the name of the pod that you want to debug in the output from this command. 
 
-## Get the Logs for your Pod  
-Use the `kubectl logs` command to show the logs for a pod.
 
-```shell
-kubectl logs <my-pod> 
-``` 
+# References
 
-You can focus this command on a specific container in the pod using the `-c` flag, for example:  
+- https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-strong-getting-started-strong-
 
-```shell
-kubectl logs <my-pod> -c <my-container> 
-``` 
-
-You can use the output from this command to see what has been happening in your pod.  
-
-##  Issue a Command against a Container in a Pod  
-Use the `kubectl exec` command to issue a command against a container in a pod.  
-
-```shell
-kubectl exec <my-pod> -c <my-container> -- <my-command> 
-```  
-
-For more information on the syntax and usage of this command, see the description of [kubectl exec](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_exec/) in the Kubernetes Documentation.  
-
-## Clone a Pod to Debug  
-Using a clone of a pod (rather than the pod itself) allows you to use some common debugging operations and assess errors without worrying about the pod terminating. Use the `kubectl debug` command to create a clone of a pod that does not terminate when an error occurs.  
-
-```shell
-kubectl debug <my-pod>
-``` 
-
-For more information on the syntax and usage of this command, see the description of [kubectl debug](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_debug/) in the Kubernetes Documentation.  
-
-## For More Information  
-
-For more helpful information about these and other kubectl commands that are useful for debugging, see the following articles in the [Kubernetes Documentation at kubernetes.io](https://kubernetes.io/docs/home/):  
-
-- [Debug Pods](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/)
-- [Monitoring, Logging, and Debugging](https://kubernetes.io/docs/tasks/debug/)
-- [Command line tool (kubectl)](https://kubernetes.io/docs/reference/kubectl/)
-- [Getting Started (with kubectl)](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-strong-getting-started-strong-) 
-- [What is Kubernetes](https://kubernetes.io/docs/concepts/overview/) 
+- [What is Kubernetes](https://kubernetes.io/docs/concepts/overview/)
